@@ -13,7 +13,7 @@ def main():
     dafish = Stockfish(path="stocksifh/stockfish-windows-2022-x86-64-modern")
     
 
-    stuff = requests.get("https://lichess.org/D4VrxsvIe2yC")
+    stuff = requests.get("https://lichess.org/7dw8c1TH")
     bstuff = BeautifulSoup(stuff.text, 'html.parser')
     results = bstuff.find('div', 'pgn')
     bresults = results.text.split("\n",1)[1]
