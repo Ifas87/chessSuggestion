@@ -5,15 +5,15 @@ import requests
 from copiedcode import pgn_to_moves
 import chess
 import chess.svg
+import time
 
 translations = {"N" : "knight", "B" : "bishop", "Q" : "Queen", "R" : "rook", "K" : "king", "n" : "knight", "b" : "bishop", "q" : "Queen", "r" : "rook", "k" : "king"}
-upperTranslations = {"N" : "knight", "B" : "bishop", "Q" : "Queen", "R" : "rook", "K" : "king"}
 
 def main():
-    dafish = Stockfish(path="stocksifh/stockfish-windows-2022-x86-64-modern")
-    
+    dafish = Stockfish(path="stocksifh\stockfish-windows-2022-x86-64-modern.exe")
+        
 
-    stuff = requests.get("https://lichess.org/7dw8c1TH")
+    stuff = requests.get("https://lichess.org/KpbwaRJWLq2z")
     bstuff = BeautifulSoup(stuff.text, 'html.parser')
     results = bstuff.find('div', 'pgn')
     bresults = results.text.split("\n",1)[1]
@@ -47,11 +47,45 @@ def main():
     
     # print(all_turns)
     bg = chess.Board()
+    changed = False
+
+    translated_turns = []
 
     for turn in all_turns:
-        print(bg)
-        lan = str(bg.push_san(turn))#turn.upper() if turn[0] in translations.keys() else turn ))
-        print(turn, lan)
+        # print(bg)
+        # print(turn)
+        
+        pushed_turn = ""
+
+        if not(len(turn) > 2 and turn[0] in translations):
+            pushed_turn = turn
+        else:
+            changed = True
+            pushed_turn = turn[0].upper()+turn[1:]
+        
+        # if (len(turn) > 2 and turn[0] in translations):
+        #     pushed_turn = turn
+
+        if turn == "oo" or turn == "OO":
+            pushed_turn = "O-O"
+        if turn == "ooo" or turn=="OOO":
+            pushed_turn = "O-O-O"
+
+        try:
+            lan = str(bg.push_san(pushed_turn))
+        except chess.IllegalMoveError:
+            if changed:
+                lan = str(bg.push_san(turn))
+            else:
+                raise chess.IllegalMoveError
+        
+        translated_turns.append(lan)
+
+    print(translated_turns)
+    best_move = dafish.get_best_move(translated_turns)
+        # best_move = dafish.get_best_move(lan)
+        # print("Stockfish recommendation: ", best_move)
+        # time.wait(1)
 
     # best_move = dafish.get_best_move()
 
