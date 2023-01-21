@@ -94,7 +94,7 @@ def main():
     # if (best_move[0] in translations):
     #     print(translations[best_move])
     # else:
-    #     print("pawn")
+    #     print("pawn") 
 
 if __name__=='__main__':
     main()
