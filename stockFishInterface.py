@@ -10,7 +10,7 @@ import time
 translations = {"N" : "knight", "B" : "bishop", "Q" : "Queen", "R" : "rook", "K" : "king", "n" : "knight", "b" : "bishop", "q" : "Queen", "r" : "rook", "k" : "king"}
 
 def main():
-    dafish = Stockfish(path="stocksifh\stockfish-windows-2022-x86-64-modern.exe")
+    dafish = Stockfish(path="stocksifh/stockfish-windows-2022-x86-64-modern", depth=20, parameters={"Threads": 2})
         
 
     stuff = requests.get("https://lichess.org/KpbwaRJWLq2z")
@@ -82,7 +82,10 @@ def main():
         translated_turns.append(lan)
 
     print(translated_turns)
-    best_move = dafish.get_best_move(translated_turns)
+
+    dafish.set_position(translated_turns)
+    best_move = dafish.get_best_move()
+    print(best_move)
         # best_move = dafish.get_best_move(lan)
         # print("Stockfish recommendation: ", best_move)
         # time.wait(1)
@@ -94,7 +97,7 @@ def main():
     # if (best_move[0] in translations):
     #     print(translations[best_move])
     # else:
-    #     print("pawn") 
+    #     print("pawn")  
 
 if __name__=='__main__':
     main()
