@@ -44,16 +44,13 @@ def main():
             print(translations[best_move])
         else:
             print("pawn")
-    
-    # print(all_turns)
+
     bg = chess.Board()
     changed = False
 
     translated_turns = []
 
     for turn in all_turns:
-        # print(bg)
-        # print(turn)
         
         pushed_turn = ""
 
@@ -62,9 +59,6 @@ def main():
         else:
             changed = True
             pushed_turn = turn[0].upper()+turn[1:]
-        
-        # if (len(turn) > 2 and turn[0] in translations):
-        #     pushed_turn = turn
 
         if turn == "oo" or turn == "OO":
             pushed_turn = "O-O"
