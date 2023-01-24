@@ -80,18 +80,17 @@ def main():
     dafish.set_position(translated_turns)
     best_move = dafish.get_best_move()
     print(best_move)
-        # best_move = dafish.get_best_move(lan)
-        # print("Stockfish recommendation: ", best_move)
-        # time.wait(1)
 
-    # best_move = dafish.get_best_move()
+    piece_symbol = best_move[:2]
+    print(piece_symbol)
+    
+    piece = bg.piece_at(chess.parse_square(piece_symbol))
+    print(piece)
 
-    # print(best_move)
-
-    # if (best_move[0] in translations):
-    #     print(translations[best_move])
-    # else:
-    #     print("pawn")  
+    if piece in translations.keys():
+        print(translations[piece])
+    else:
+        print("Pawn")
 
 if __name__=='__main__':
     main()
