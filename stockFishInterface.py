@@ -13,7 +13,7 @@ def main():
     dafish = Stockfish(path="stocksifh/stockfish-windows-2022-x86-64-modern", depth=20, parameters={"Threads": 2})
         
 
-    stuff = requests.get("https://lichess.org/KpbwaRJWLq2z")
+    stuff = requests.get("https://lichess.org/rapgnABvodOW")
     bstuff = BeautifulSoup(stuff.text, 'html.parser')
     results = bstuff.find('div', 'pgn')
     bresults = results.text.split("\n",1)[1]
@@ -75,19 +75,15 @@ def main():
         
         translated_turns.append(lan)
 
-    print(translated_turns)
+    # print(translated_turns)
 
     dafish.set_position(translated_turns)
     best_move = dafish.get_best_move()
-    print(best_move)
 
     piece_symbol = best_move[:2]
-    print(piece_symbol)
-    
-    piece = bg.piece_at(chess.parse_square(piece_symbol))
-    print(piece)
+    piece = str(bg.piece_at(chess.parse_square(piece_symbol)))
 
-    if piece in translations.keys():
+    if translations.get(piece):
         print(translations[piece])
     else:
         print("Pawn")
