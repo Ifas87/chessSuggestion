@@ -75,8 +75,6 @@ def main():
         
         translated_turns.append(lan)
 
-    # print(translated_turns)
-
     dafish.set_position(translated_turns)
     best_move = dafish.get_best_move()
 
