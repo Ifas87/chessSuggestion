@@ -10,22 +10,19 @@ import time
 translations = {"N" : "knight", "B" : "bishop", "Q" : "Queen", "R" : "rook", "K" : "king", "n" : "knight", "b" : "bishop", "q" : "Queen", "r" : "rook", "k" : "king"}
 
 def main():
-    dafish = Stockfish(path="stocksifh/stockfish-windows-2022-x86-64-modern", depth=20, parameters={"Threads": 2})
-        
+    dafish = Stockfish(path="stocksifh/stockfish-windows-2022-x86-64-modern", depth=20, parameters={"Threads": 2}) 
 
-    stuff = requests.get("https://lichess.org/rapgnABvodOW")
+    stuff = requests.get("https://lichess.org/Tbcuqft9x1Zp")
     bstuff = BeautifulSoup(stuff.text, 'html.parser')
     results = bstuff.find('div', 'pgn')
     bresults = results.text.split("\n",1)[1]
     
     pgn_steps = pgn_to_moves(bresults)
-    # print(pgn_steps)
 
     all_turns = []
 
     for turn in pgn_steps:
         turn = list(turn)
-        # print(len(turn), len(turn)>1)
         if(turn[0][0] == "P" or turn[0][0] == "p"):
             turn[0] = turn[0][1:]
             all_turns.append(turn[0])
@@ -87,4 +84,6 @@ def main():
         print("Pawn")
 
 if __name__=='__main__':
+    stuff = str(input("Press Enter on next move or -1 to end the match"))
+    print(stuff == "")
     main()
