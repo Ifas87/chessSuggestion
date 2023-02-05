@@ -9,10 +9,10 @@ import time
 
 translations = {"N" : "knight", "B" : "bishop", "Q" : "Queen", "R" : "rook", "K" : "king", "n" : "knight", "b" : "bishop", "q" : "Queen", "r" : "rook", "k" : "king"}
 
-def main():
+def main(link):
     dafish = Stockfish(path="stocksifh/stockfish-windows-2022-x86-64-modern", depth=20, parameters={"Threads": 2}) 
 
-    stuff = requests.get("https://lichess.org/Tbcuqft9x1Zp")
+    stuff = requests.get(link)
     bstuff = BeautifulSoup(stuff.text, 'html.parser')
     results = bstuff.find('div', 'pgn')
     bresults = results.text.split("\n",1)[1]
@@ -35,13 +35,6 @@ def main():
             else:
                 all_turns.append(turn[1])
 
-    if not all_turns:
-        best_move = dafish.get_best_move()
-        if (best_move in translations):
-            print(translations[best_move])
-        else:
-            print("pawn")
-
     bg = chess.Board()
     changed = False
 
@@ -52,10 +45,10 @@ def main():
         pushed_turn = ""
 
         if not(len(turn) > 2 and turn[0] in translations):
-            pushed_turn = turn
+            pushed_turn = turn.strip()
         else:
             changed = True
-            pushed_turn = turn[0].upper()+turn[1:]
+            pushed_turn = (turn[0].upper()+turn[1:]).strip()
 
         if turn == "oo" or turn == "OO":
             pushed_turn = "O-O"
@@ -79,11 +72,16 @@ def main():
     piece = str(bg.piece_at(chess.parse_square(piece_symbol)))
 
     if translations.get(piece):
-        print(translations[piece])
+        print(translations[piece], best_move)
     else:
-        print("Pawn")
+        print("Pawn", best_move)
 
 if __name__=='__main__':
-    stuff = str(input("Press Enter on next move or -1 to end the match"))
-    print(stuff == "")
-    main()
+    gmae_link = str(input("Enter the link to your game: "))
+    if gmae_link != "-1":
+        while True:
+            stuff = str(input("Press Enter on next move or -1 to end the match"))
+            if(stuff=="-1"):
+                break
+            if(stuff==""):
+                main(gmae_link)
