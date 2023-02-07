@@ -73,8 +73,10 @@ def main(link):
 
     if translations.get(piece):
         print(translations[piece], best_move)
+        # print(translations[piece])
     else:
         print("Pawn", best_move)
+        # print('Pawn')
 
 if __name__=='__main__':
     gmae_link = str(input("Enter the link to your game: "))
