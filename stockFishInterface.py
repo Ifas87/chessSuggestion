@@ -17,7 +17,7 @@ def main(link):
     results = bstuff.find('div', 'pgn')
     bresults = results.text.split("\n",1)[1]
     
-    pgn_steps = pgn_to_moves(bresults)
+    pgn_steps = pgn_to_moves(bresults) 
 
     all_turns = []
 
