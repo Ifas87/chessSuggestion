@@ -39,10 +39,13 @@ def main(link):
     changed = False
 
     translated_turns = []
+    castle = False
 
     for turn in all_turns:
         
         pushed_turn = ""
+
+        print(turn, pushed_turn)
 
         if not(len(turn) > 2 and turn[0] in translations):
             pushed_turn = turn.strip()
@@ -63,6 +66,8 @@ def main(link):
             else:
                 raise chess.IllegalMoveError
         
+        print(bg)
+
         translated_turns.append(lan)
 
     dafish.set_position(translated_turns)
