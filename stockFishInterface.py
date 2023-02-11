@@ -45,24 +45,24 @@ def main(link):
         
         pushed_turn = ""
 
-        print(turn, pushed_turn)
-
         if not(len(turn) > 2 and turn[0] in translations):
             pushed_turn = turn.strip()
         else:
             changed = True
             pushed_turn = (turn[0].upper()+turn[1:]).strip()
 
-        if turn == "oo" or turn == "OO":
+        if turn.strip() == "oo" or turn.strip() == "OO":
             pushed_turn = "O-O"
-        if turn == "ooo" or turn=="OOO":
+        if turn.strip() == "ooo" or turn.strip()=="OOO":
             pushed_turn = "O-O-O"
+
+        print(turn, pushed_turn)
 
         try:
             lan = str(bg.push_san(pushed_turn))
-        except chess.IllegalMoveError:
+        except (chess.IllegalMoveError, chess.InvalidMoveError) as c:
             if changed:
-                lan = str(bg.push_san(turn))
+                lan = str(bg.push_san(turn.strip()))
             else:
                 raise chess.IllegalMoveError
         
