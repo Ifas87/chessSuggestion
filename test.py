@@ -82,7 +82,7 @@ def main(pgn):
 if __name__ == "__main__":
     moveCount=0
     while True: 
-        stuff = requests.get("https://lichess.org/gJXMhrCe")
+        stuff = requests.get("https://lichess.org/4TkATtxB")
         bstuff = BeautifulSoup(stuff.text, 'html.parser')
         results = bstuff.find('div', 'pgn')
         bresults = results.text.split("\n",1)[1]
